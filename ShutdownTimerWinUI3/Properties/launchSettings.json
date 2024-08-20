@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ShutdownTimerWinUI3 (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "ShutdownTimerWinUI3 (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
