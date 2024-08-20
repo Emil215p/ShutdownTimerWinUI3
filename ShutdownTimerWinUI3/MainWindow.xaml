@@ -8,7 +8,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Button x:Name="BeginTimer" Content="Begin Timer" Click="BeginTimerButton_Click" Margin="5" />
-    </StackPanel>
+    <Grid x:Name="UIGrid" Background="Aquamarine" Width="1000" Height="700" RowDefinitions="*,*,*,*" ColumnDefinitions="*,.75*,*">
+        <TextBlock Text="Shutdown Timer" FontSize="24" Margin="5" Grid.Row="1" Grid.Column="1"/>
+        <TimePicker x:Name="TimerEnd" Header="Timer ends:" Grid.Row="2" Grid.Column="1"/>
+        <TextBlock x:Name="TimerText" Text="Timer: 0" Margin="5" Grid.Row="3" Grid.Column="1"/>
+        <Button x:Name="BeginTimer" Content="Begin Timer" Click="BeginTimerButton_Click" Margin="5" Grid.Row="4" Grid.Column="1"/>
+    </Grid>
 </Window>
