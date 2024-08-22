@@ -44,6 +44,9 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
+    <Page Update="Timer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <!--
@@ -67,5 +70,8 @@
   <!-- Include PublishProfiles folder -->
   <ItemGroup>
     <None Include="PublishProfiles\**\*" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Timer.xaml" />
   </ItemGroup>
 </Project>
