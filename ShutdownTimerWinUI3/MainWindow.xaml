@@ -7,11 +7,56 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+    
+    <Grid x:Name="UIGrid" Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-    <Grid x:Name="UIGrid" Background="Aquamarine" Width="1000" Height="700" RowDefinitions="*,*,*,*" ColumnDefinitions="*,.75*,*">
-        <TextBlock Text="Shutdown Timer" FontSize="24" Margin="5" Grid.Row="1" Grid.Column="1"/>
-        <TimePicker x:Name="TimerEnd" Header="Timer ends:" Grid.Row="2" Grid.Column="1"/>
-        <TextBlock x:Name="TimerText" Text="Timer: 0" Margin="5" Grid.Row="3" Grid.Column="1"/>
-        <Button x:Name="BeginTimer" Content="Begin Timer" Click="BeginTimerButton_Click" Margin="5" Grid.Row="4" Grid.Column="1"/>
+        <TextBlock Text="Shutdown Timer"
+                   FontSize="24"
+                   Margin="5"
+                   Grid.Row="0"
+                   Grid.Column="1"/>
+        
+        <TimePicker x:Name="TimerEnd"
+                    Header="Timer ends:"
+                    Grid.Row="1"
+                    Grid.Column="1"/>
+        
+        <TextBlock x:Name="TimerText"
+                   Text="Timer: 0"
+                   Margin="5"
+                   Grid.Row="2"
+                   Grid.Column="1"/>
+
+        <CheckBox x:Name="ToggleMS" Content="Toggle Milliseconds" Grid.Row="3" Grid.Column="2"></CheckBox>
+        
+        <Button x:Name="BeginTimer"
+                Content="Begin Timer"
+                Click="BeginTimerButton_Click"
+                Margin="5"
+                Grid.Row="4"
+                Grid.Column="1"
+                BorderThickness="2"
+                BorderBrush="LightGreen"
+                Background="Green"/>
+
+        <Button x:Name="GetHelp"
+                Content="Help"
+                Click="GetHelpButton_Click"
+                Margin="5"
+                Grid.Row="4"
+                Grid.Column="2"
+                BorderThickness="2"/>
     </Grid>
 </Window>

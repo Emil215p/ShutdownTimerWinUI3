@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -26,11 +27,21 @@ namespace ShutdownTimerWinUI3
         public MainWindow()
         {
             this.InitializeComponent();
+            Title = "Shutdown Timer";
+            this.AppWindow.MoveAndResize(new Windows.Graphics.RectInt32(500, 500, 450, 270));
+            var appWindowPresenter = this.AppWindow.Presenter as OverlappedPresenter;
+            appWindowPresenter.IsResizable = false;
         }
 
         private void BeginTimerButton_Click(object sender, RoutedEventArgs e)
         {
-            BeginTimer.Content = "Timer has started :)";
+            BeginTimer.Content = "Timer has not started :)";
+            //System.Diagnostics.Process.Start("shutdown", "/s /t 0");
+        }
+
+        private void GetHelpButton_Click(object sender, RoutedEventArgs e)
+        {
+            GetHelp.Content = "Help is not available :(";
         }
     }
 }
