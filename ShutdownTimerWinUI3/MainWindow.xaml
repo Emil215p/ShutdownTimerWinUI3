@@ -12,9 +12,9 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -26,27 +26,38 @@
                    FontSize="24"
                    Margin="5"
                    Grid.Row="0"
-                   Grid.Column="1"/>
+                   Grid.Column="0"/>
+
+        <ComboBox x:Name="SelectAction" Grid.Row="1" Grid.Column="0" SelectedIndex="0">
+            <ComboBoxItem Content="Shutdown"/>
+            <ComboBoxItem Content="Restart"/>
+            <ComboBoxItem Content="Sleep"/>
+            <ComboBoxItem Content="Beep"/>
+            <ComboBoxItem Content="Nothing"/>
+        </ComboBox>
         
         <TimePicker x:Name="TimerEnd"
                     Header="Timer ends:"
-                    Grid.Row="1"
-                    Grid.Column="1"/>
+                    Grid.Row="2"
+                    Grid.Column="0"/>
         
         <TextBlock x:Name="TimerText"
                    Text="Timer: 0"
                    Margin="5"
-                   Grid.Row="2"
-                   Grid.Column="1"/>
+                   Grid.Row="3"
+                   Grid.Column="0"/>
 
-        <CheckBox x:Name="ToggleMS" Content="Toggle Milliseconds" Grid.Row="3" Grid.Column="2"></CheckBox>
-        
+        <CheckBox x:Name="ToggleMS"
+                  Content="Toggle Milliseconds"
+                  Grid.Row="4"
+                  Grid.Column="1"/>
+
         <Button x:Name="BeginTimer"
                 Content="Begin Timer"
                 Click="BeginTimerButton_Click"
                 Margin="5"
-                Grid.Row="4"
-                Grid.Column="1"
+                Grid.Row="5"
+                Grid.Column="0"
                 BorderThickness="2"
                 BorderBrush="LightGreen"
                 Background="Green"/>
@@ -55,8 +66,8 @@
                 Content="Help"
                 Click="GetHelpButton_Click"
                 Margin="5"
-                Grid.Row="4"
-                Grid.Column="2"
+                Grid.Row="5"
+                Grid.Column="1"
                 BorderThickness="2"/>
     </Grid>
 </Window>

@@ -28,9 +28,11 @@ namespace ShutdownTimerWinUI3
         {
             this.InitializeComponent();
             Title = "Shutdown Timer";
-            this.AppWindow.MoveAndResize(new Windows.Graphics.RectInt32(500, 500, 450, 270));
+            this.AppWindow.MoveAndResize(new Windows.Graphics.RectInt32(500, 500, 450, 300));
             var appWindowPresenter = this.AppWindow.Presenter as OverlappedPresenter;
             appWindowPresenter.IsResizable = false;
+            appWindowPresenter.IsMaximizable = false;
+            //appWindowPresenter.IsMinimizable = false;
         }
 
         private void BeginTimerButton_Click(object sender, RoutedEventArgs e)
