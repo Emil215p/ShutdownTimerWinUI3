@@ -17,13 +17,8 @@ using Windows.Foundation.Collections;
 using System.Runtime.InteropServices;
 using WinUIEx;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
 namespace ShutdownTimerWinUI3
 {
-    /// <summary>
-    /// An empty window that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class MainWindow : Window
     {
         private string _selectedItemOutput;
@@ -31,12 +26,24 @@ namespace ShutdownTimerWinUI3
         {
             this.InitializeComponent();
             Title = "Shutdown Timer";
-            //this.AppWindow.MoveAndResize(new Windows.Graphics.RectInt32(500, 500, 450, 300));
+
+            // Get the display area
+            var displayArea = DisplayArea.GetFromWindowId(AppWindow.Id, DisplayAreaFallback.Primary);
+            var workArea = displayArea.WorkArea;
+
+            // Set the window size to a percentage of the work area dimensions
+            int windowWidth = (int)(workArea.Width * 0.5); // 50% of work area width
+            int windowHeight = (int)(workArea.Height * 0.5); // 50% of work area height
+
+            this.AppWindow.Resize(new Windows.Graphics.SizeInt32(windowWidth, windowHeight));
+
             var appWindowPresenter = this.AppWindow.Presenter as OverlappedPresenter;
-            //appWindowPresenter.IsResizable = false;
-            //appWindowPresenter.IsMaximizable = false;
+
+            appWindowPresenter.IsResizable = false;
+            appWindowPresenter.IsMaximizable = false;
             //appWindowPresenter.IsMinimizable = false;
         }
+
         private void SelectActionComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (SelectAction.SelectedItem is ComboBoxItem selectedItem)
@@ -51,9 +58,10 @@ namespace ShutdownTimerWinUI3
                 _selectedItemOutput = "null";
             }
         }
+
         private void BeginTimerButton_Click(object sender, RoutedEventArgs e)
         {
-            BeginTimer.Content = _selectedItemOutput;
+            BeginTimer.Content = _selectedItemOutput + "ing...";
             //BeginTimer.Content = "Timer has not started :)";
             //System.Diagnostics.Process.Start("shutdown", "/s /t 0");
         }
