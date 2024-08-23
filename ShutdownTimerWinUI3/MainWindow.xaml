@@ -28,7 +28,7 @@
                    Grid.Row="0"
                    Grid.Column="0"/>
 
-        <ComboBox x:Name="SelectAction" Grid.Row="1" Grid.Column="0" SelectedIndex="0">
+        <ComboBox x:Name="SelectAction" Grid.Row="1" Grid.Column="0" SelectedIndex="0" SelectionChanged="SelectActionComboBox_SelectionChanged">
             <ComboBoxItem Content="Shutdown"/>
             <ComboBoxItem Content="Restart"/>
             <ComboBoxItem Content="Sleep"/>
@@ -39,7 +39,8 @@
         <TimePicker x:Name="TimerEnd"
                     Header="Timer ends:"
                     Grid.Row="2"
-                    Grid.Column="0"/>
+                    Grid.Column="0"
+                     ClockIdentifier="24HourClock"/>
         
         <TextBlock x:Name="TimerText"
                    Text="Timer: 0"
