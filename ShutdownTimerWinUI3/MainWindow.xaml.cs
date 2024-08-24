@@ -15,7 +15,6 @@ using Microsoft.UI.Xaml.Navigation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using System.Runtime.InteropServices;
-using WinUIEx;
 
 namespace ShutdownTimerWinUI3
 {
@@ -32,8 +31,8 @@ namespace ShutdownTimerWinUI3
             var workArea = displayArea.WorkArea;
 
             // Set the window size to a percentage of the work area dimensions
-            int windowWidth = (int)(workArea.Width * 0.5); // 50% of work area width
-            int windowHeight = (int)(workArea.Height * 0.5); // 50% of work area height
+            int windowWidth = (int)(workArea.Width * 0.24); // 50% of work area width
+            int windowHeight = (int)(workArea.Height * 0.3); // 50% of work area height
 
             this.AppWindow.Resize(new Windows.Graphics.SizeInt32(windowWidth, windowHeight));
 
