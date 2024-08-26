@@ -43,17 +43,12 @@
                     Grid.Row="2"
                     Grid.Column="0"
                     ClockIdentifier="24HourClock"/>
-        
+
         <TextBlock x:Name="TimerText"
                    Text=""
                    Margin="5"
                    Grid.Row="3"
                    Grid.Column="0"/>
-
-        <CheckBox x:Name="ToggleMS"
-                  Content="Toggle Milliseconds"
-                  Grid.Row="4"
-                  Grid.Column="1"/>
 
         <Button x:Name="BeginTimer"
                 Content="Begin Timer"
