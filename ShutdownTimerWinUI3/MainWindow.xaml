@@ -32,18 +32,20 @@
             <ComboBoxItem Content="Shutdown"/>
             <ComboBoxItem Content="Restart"/>
             <ComboBoxItem Content="Sleep"/>
+            <ComboBoxItem Content="Hibernate"/>
             <ComboBoxItem Content="Beep"/>
             <ComboBoxItem Content="Nothing"/>
         </ComboBox>
         
         <TimePicker x:Name="TimerEnd"
+                    TimeChanged="TimerEnd_TimeChanged"
                     Header="Timer ends:"
                     Grid.Row="2"
                     Grid.Column="0"
-                     ClockIdentifier="24HourClock"/>
+                    ClockIdentifier="24HourClock"/>
         
         <TextBlock x:Name="TimerText"
-                   Text="Timer: 0"
+                   Text=""
                    Margin="5"
                    Grid.Row="3"
                    Grid.Column="0"/>
