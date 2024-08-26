@@ -109,8 +109,8 @@ namespace ShutdownTimerWinUI3
             }
             else if (_selectedItemOutput == "Beep")
             {
-                // Beep at 5000 Hz for 1 second
-                Console.Beep(5000, 1000);
+                // First is frequency, second is duration (1000 per second).
+                Console.Beep(5000, 10000);
             }
             else
             {
