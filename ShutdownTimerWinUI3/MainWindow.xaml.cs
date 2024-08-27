@@ -154,7 +154,7 @@ namespace ShutdownTimerWinUI3
                 Console.Beep(5000, 1000);
             }
             else
-            {ss
+            {
                 // Do nothing
                 BeginTimer.Content = _selectedItemOutput + "ing...";
                 Debug.WriteLine("No action selected.");
