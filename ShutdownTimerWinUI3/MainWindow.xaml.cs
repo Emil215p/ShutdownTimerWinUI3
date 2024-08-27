@@ -17,16 +17,23 @@ using Windows.Foundation.Collections;
 using System.Runtime.InteropServices;
 using Windows.Management;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace ShutdownTimerWinUI3
 {
     public sealed partial class MainWindow : Window
     {
+        private CancellationTokenSource _cancellationTokenSource;
         private int _TimeinSeconds;
         private string _selectedItemOutput;
+        private DispatcherTimer _timer;
+        private TimeSpan _time;
         public MainWindow()
         {
             this.InitializeComponent();
+            _timer = new DispatcherTimer();
+            _timer.Interval = TimeSpan.FromSeconds(1);
+            _timer.Tick += Timer_Tick;
             //TimerEnd.TimeChanged += TimerEnd_TimeChanged;
             Title = "Shutdown Timer";
 
@@ -46,6 +53,20 @@ namespace ShutdownTimerWinUI3
             appWindowPresenter.IsResizable = true;
             appWindowPresenter.IsMaximizable = true;
             appWindowPresenter.IsMinimizable = true;
+        }
+
+        private void Timer_Tick(object sender, object e)
+        {
+            if (_time.TotalSeconds > 0)
+            {
+                _time = _time.Add(TimeSpan.FromSeconds(-1));
+                TimerText.Text = _time.ToString(@"hh\:mm\:ss");
+            }
+            else
+            {
+                _timer.Stop();
+                TimerText.Text = "Time's up!";
+            }
         }
         [DllImport("PowrProf.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
         public static extern bool SetSuspendState(bool hibernate, bool forceCritical, bool disableWakeEvent);
@@ -83,46 +104,75 @@ namespace ShutdownTimerWinUI3
 
         private async void BeginTimerButton_Click(object sender, RoutedEventArgs e)
         {
-            BeginTimer.Content = _selectedItemOutput + "ing...";
-            await Task.Delay(_TimeinSeconds * 1000);
-            
+            _cancellationTokenSource = new CancellationTokenSource();
+            CancellationToken token = _cancellationTokenSource.Token;
+
+            _time = TimeSpan.FromSeconds(_TimeinSeconds); // Set the countdown time here
+            TimerText.Text = _time.ToString(@"hh\:mm\:ss");
+            _timer.Start();
+
+            BeginTimer.Content = "Timer Running...";
+            try
+            {
+                await Task.Delay(_TimeinSeconds * 1000, token);
+            }
+            catch (TaskCanceledException)
+            {
+                Debug.WriteLine("Task was canceled.");
+                return;
+            }
+
             if (_selectedItemOutput == "Shutdown")
             {
                 // Shutdown the system
+                BeginTimer.Content = _selectedItemOutput + "ing...";
                 System.Diagnostics.Process.Start("shutdown", "/s /t 0");
             }
             else if (_selectedItemOutput == "Restart")
             {
                 // Restart the system
+                BeginTimer.Content = _selectedItemOutput + "ing...";
                 System.Diagnostics.Process.Start("restart", "/r /t 0");
             }
             else if (_selectedItemOutput == "Sleep")
             {
                 // Put the system to sleep
+                BeginTimer.Content = _selectedItemOutput + "ing...";
                 SetSuspendState(false, true, true);
 
             }
             else if (_selectedItemOutput == "Hibernate")
             {
                 // Hibernate the system
+                BeginTimer.Content = _selectedItemOutput + "ing...";
                 SetSuspendState(true, true, true);
             }
             else if (_selectedItemOutput == "Beep")
             {
                 // First is frequency, second is duration (1000 per second).
+                BeginTimer.Content = _selectedItemOutput + "ing...";
                 Console.Beep(5000, 10000);
             }
             else
             {
                 // Do nothing
+                BeginTimer.Content = _selectedItemOutput + "ing...";
                 Debug.WriteLine("No action selected.");
             }
             BeginTimer.Content = "Begin Timer";
         }
 
-        private void GetHelpButton_Click(object sender, RoutedEventArgs e)
-        { 
-            GetHelp.Content = "Help is not available :(";
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_cancellationTokenSource != null)
+            {
+                _cancellationTokenSource.Cancel();
+                _timer.Stop();
+                TimerText.Text = "Timer cancelled.";
+                BeginTimer.Content = "Begin Timer";
+            } else {
+                Debug.WriteLine("No timer to cancel.");
+            }
         }
     }
 }

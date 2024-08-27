@@ -60,9 +60,9 @@
                 BorderBrush="LightGreen"
                 Background="Green"/>
 
-        <Button x:Name="GetHelp"
-                Content="Help"
-                Click="GetHelpButton_Click"
+        <Button x:Name="CancelCount"
+                Content="Cancel"
+                Click="CancelButton_Click"
                 Margin="5"
                 Grid.Row="5"
                 Grid.Column="1"
