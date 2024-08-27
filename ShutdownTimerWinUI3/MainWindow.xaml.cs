@@ -151,10 +151,10 @@ namespace ShutdownTimerWinUI3
             {
                 // First is frequency, second is duration (1000 per second).
                 BeginTimer.Content = _selectedItemOutput + "ing...";
-                Console.Beep(5000, 10000);
+                Console.Beep(5000, 1000);
             }
             else
-            {
+            {ss
                 // Do nothing
                 BeginTimer.Content = _selectedItemOutput + "ing...";
                 Debug.WriteLine("No action selected.");
