@@ -50,8 +50,8 @@ namespace ShutdownTimerWinUI3
             var appWindowPresenter = this.AppWindow.Presenter as OverlappedPresenter;
 
             // Set the window to be resizable, maximizable, and minimizable
-            appWindowPresenter.IsResizable = true;
-            appWindowPresenter.IsMaximizable = true;
+            appWindowPresenter.IsResizable = false;
+            appWindowPresenter.IsMaximizable = false;
             appWindowPresenter.IsMinimizable = true;
         }
 
