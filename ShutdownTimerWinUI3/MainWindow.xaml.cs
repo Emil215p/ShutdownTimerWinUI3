@@ -86,11 +86,6 @@ namespace ShutdownTimerWinUI3
             }
         }
 
-        //private void TimerEnd_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
-        //{
-        //    Debug.WriteLine("Time sat: " + TimerEnd);
-        //    Debug.WriteLine("TimerEnd event has triggered.");
-        //}
         private void TimerEnd_TimeChanged(object sender, TimePickerValueChangedEventArgs e)
         {
             // Get the selected time
@@ -132,14 +127,13 @@ namespace ShutdownTimerWinUI3
             {
                 // Restart the system
                 BeginTimer.Content = _selectedItemOutput + "ing...";
-                System.Diagnostics.Process.Start("restart", "/r /t 0");
+                System.Diagnostics.Process.Start("shutdown", "/r /t 0");
             }
             else if (_selectedItemOutput == "Sleep")
             {
                 // Put the system to sleep
                 BeginTimer.Content = _selectedItemOutput + "ing...";
                 SetSuspendState(false, true, true);
-
             }
             else if (_selectedItemOutput == "Hibernate")
             {
@@ -153,6 +147,18 @@ namespace ShutdownTimerWinUI3
                 BeginTimer.Content = _selectedItemOutput + "ing...";
                 Console.Beep(5000, 1000);
             }
+            else if (_selectedItemOutput == "Logoff")
+            {
+                // Logoff the current user
+                BeginTimer.Content = _selectedItemOutput + "ing...";
+                System.Diagnostics.Process.Start("shutdown", "/l /t 0");
+            }
+            else if (_selectedItemOutput == "Lock")
+            {
+                // Lock the system
+                BeginTimer.Content = _selectedItemOutput + "ing...";
+                System.Diagnostics.Process.Start("rundll32.exe", "user32.dll,LockWorkStation");
+            }
             else
             {
                 // Do nothing
@@ -162,7 +168,7 @@ namespace ShutdownTimerWinUI3
             BeginTimer.Content = "Begin Timer";
         }
 
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        private async void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             if (_cancellationTokenSource != null)
             {
@@ -171,7 +177,10 @@ namespace ShutdownTimerWinUI3
                 TimerText.Text = "Timer cancelled.";
                 BeginTimer.Content = "Begin Timer";
             } else {
-                Debug.WriteLine("No timer to cancel.");
+                CancelCount.Content = "Error...";
+                Debug.WriteLine("No timer active.");
+                await Task.Delay(5000);
+                CancelCount.Content = "Cancel";
             }
         }
     }

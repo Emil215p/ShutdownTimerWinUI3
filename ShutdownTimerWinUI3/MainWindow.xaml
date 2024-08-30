@@ -31,8 +31,13 @@
         <ComboBox x:Name="SelectAction" Grid.Row="1" Grid.Column="0" SelectedIndex="0" SelectionChanged="SelectActionComboBox_SelectionChanged">
             <ComboBoxItem Content="Shutdown"/>
             <ComboBoxItem Content="Restart"/>
+            
             <ComboBoxItem Content="Sleep"/>
             <ComboBoxItem Content="Hibernate"/>
+
+            <ComboBoxItem Content="Logoff"/>
+            <ComboBoxItem Content="Lock"/>
+
             <ComboBoxItem Content="Beep"/>
             <ComboBoxItem Content="Nothing"/>
         </ComboBox>
