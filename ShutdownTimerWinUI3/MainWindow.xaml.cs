@@ -23,6 +23,7 @@ namespace ShutdownTimerWinUI3
 {
     public sealed partial class MainWindow : Window
     {
+        private string _DaysSelected;
         private CancellationTokenSource _cancellationTokenSource;
         private int _TimeinSeconds;
         private string _selectedItemOutput;
@@ -182,6 +183,16 @@ namespace ShutdownTimerWinUI3
                 await Task.Delay(5000);
                 CancelCount.Content = "Cancel";
             }
+        }
+
+        private void DayPicker_BeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
+        {
+            _DaysSelected = args.NewText;
+            int.Parse(_DaysSelected);
+            Debug.WriteLine("Value: " + args.NewText);
+            TimeSpan timeSpan = TimeSpan.FromDays(Convert.ToDouble(args.NewText));
+            Debug.WriteLine("TimeSpan: " + timeSpan);
+
         }
     }
 }

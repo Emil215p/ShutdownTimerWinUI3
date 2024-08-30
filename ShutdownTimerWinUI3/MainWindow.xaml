@@ -48,6 +48,14 @@
                     Grid.Row="2"
                     Grid.Column="0"
                     ClockIdentifier="24HourClock"/>
+        
+        <TextBox x:Name="DayPicker"
+                   BeforeTextChanging="DayPicker_BeforeTextChanging"
+                   Text="0"
+                   Header="Days:"
+                   Margin="5"
+                   Grid.Row="2"
+                   Grid.Column="1"/>
 
         <TextBlock x:Name="TimerText"
                    Text=""
