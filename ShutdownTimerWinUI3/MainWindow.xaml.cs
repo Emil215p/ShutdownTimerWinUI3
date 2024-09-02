@@ -90,32 +90,23 @@ namespace ShutdownTimerWinUI3
 
         private void TimerEnd_TimeChanged(object sender, TimePickerValueChangedEventArgs e)
         {
+            // Only store the selected time, do not set the timer here
             TimeSpan _selectedTime = e.NewTime;
-            int DaysInSeconds = int.Parse(_DaysSelected) * 86400;
-
-            if (string.IsNullOrEmpty(_DaysSelected) || (_DaysSelected.Length > 6))
-            {
-                Debug.WriteLine("Invalid. Days selected: " + _DaysSelected + " & Days selected length: " + _DaysSelected.Length);
-            }
-            else
-            {
-                // Get the selected time
-                Debug.WriteLine("Time changed: " + _selectedTime);
-                if (_DaysSelected == "0")
-                {
-                    TimerText.Text = _selectedItemOutput + " will be performed in hour(s): " + _selectedTime;
-                }
-                else
-                {
-                    TimerText.Text = _selectedItemOutput + " will be performed in day(s): " + _DaysSelected + ":" + _selectedTime;
-                }
-                _TimeinSeconds = (int)_selectedTime.TotalSeconds + DaysInSeconds;
-                Debug.WriteLine("Time in seconds: " + _TimeinSeconds);
-            }
+            Debug.WriteLine("Time changed: " + _selectedTime);
         }
 
         private async void BeginTimerButton_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(_selectedItemOutput))
+            {
+                Debug.WriteLine("No action selected.");
+                return;
+            }
+            if (_TimeinSeconds == 0)
+            {
+                Debug.WriteLine("No time selected.");
+                return;
+            }
             _cancellationTokenSource = new CancellationTokenSource();
             CancellationToken token = _cancellationTokenSource.Token;
 
@@ -204,32 +195,45 @@ namespace ShutdownTimerWinUI3
 
         private void DayPicker_BeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
         {
+            // Only store the selected days, do not set the timer here
             _DaysSelected = args.NewText;
-
-            if (!string.IsNullOrEmpty(_DaysSelected) && (_DaysSelected.Length < 6))
-            {
-                int days = int.Parse(_DaysSelected);
-                Debug.WriteLine("Value: " + args.NewText);
-                TimeSpan timeSpan = TimeSpan.FromDays(Convert.ToDouble(args.NewText));
-                Debug.WriteLine("TimeSpan: " + timeSpan);
-            }
-            else
-            {
-                Debug.WriteLine("Input is empty or null.: Days selected: " + _DaysSelected + " & Days selected length: " + _DaysSelected.Length);
-            }
+            Debug.WriteLine("Days selected: " + _DaysSelected);
         }
         
         private void SetTimerButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_selectedItemOutput == "null")
+            if (TimerEnd == null || TimerEnd.Time == TimeSpan.Zero)
             {
-                Debug.WriteLine("No action selected.");
-                TimerText.Text = "No action selected.";
+                Debug.WriteLine("Invalid. TimerEnd is null or no time selected.");
+                return; // Exit the method if TimerEnd is null or no time is selected
+            }
+
+            if (string.IsNullOrEmpty(_DaysSelected) || (_DaysSelected.Length > 6))
+            {
+                Debug.WriteLine("Invalid. Days selected: " + _DaysSelected + " & Days selected length: " + _DaysSelected.Length);
+                return; // Exit the method if the input is invalid
+            }
+            int DaysInSeconds = int.Parse(_DaysSelected) * 86400;
+
+            if (string.IsNullOrEmpty(_DaysSelected) || (_DaysSelected.Length > 6))
+            {
+                Debug.WriteLine("Invalid. Days selected: " + _DaysSelected + " & Days selected length: " + _DaysSelected.Length);
             }
             else
             {
-                Debug.WriteLine("Action selected: " + _selectedItemOutput);
-                TimerText.Text = "Action selected: " + _selectedItemOutput;
+                // Get the selected time
+                TimeSpan _selectedTime = TimerEnd.Time; // Assuming TimerEnd is a TimePicker
+                Debug.WriteLine("Time changed: " + _selectedTime);
+                if (_DaysSelected == "0")
+                {
+                    TimerText.Text = _selectedItemOutput + " will be performed in hour(s): " + _selectedTime;
+                }
+                else
+                {
+                    TimerText.Text = _selectedItemOutput + " will be performed in day(s): " + _DaysSelected + ":" + _selectedTime;
+                }
+                _TimeinSeconds = (int)_selectedTime.TotalSeconds + DaysInSeconds;
+                Debug.WriteLine("Time in seconds: " + _TimeinSeconds);
             }
         }
 
