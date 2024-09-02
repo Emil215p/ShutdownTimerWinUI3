@@ -55,6 +55,7 @@
                    Header="Days:"
                    Margin="5"
                    Grid.Row="2"
+                   MaxLength="5"
                    Grid.Column="1"/>
 
         <TextBlock x:Name="TimerText"
@@ -63,7 +64,14 @@
                    Grid.Row="3"
                    Grid.Column="0"/>
 
-        <Button x:Name="BeginTimer"
+            <Button x:Name="SetTimer"
+                Content="Set Timer"
+                Click="SetTimerButton_Click"
+                Margin="5"
+                Grid.Row="3"
+                Grid.Column="1"/>
+
+            <Button x:Name="BeginTimer"
                 Content="Begin Timer"
                 Click="BeginTimerButton_Click"
                 Margin="5"

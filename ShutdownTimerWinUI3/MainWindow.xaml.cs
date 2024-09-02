@@ -18,6 +18,7 @@ using System.Runtime.InteropServices;
 using Windows.Management;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Net.NetworkInformation;
 
 namespace ShutdownTimerWinUI3
 {
@@ -61,7 +62,7 @@ namespace ShutdownTimerWinUI3
             if (_time.TotalSeconds > 0)
             {
                 _time = _time.Add(TimeSpan.FromSeconds(-1));
-                TimerText.Text = _time.ToString(@"hh\:mm\:ss");
+                TimerText.Text = _time.ToString(@"d\:hh\:mm\:ss");
             }
             else
             {
@@ -89,13 +90,28 @@ namespace ShutdownTimerWinUI3
 
         private void TimerEnd_TimeChanged(object sender, TimePickerValueChangedEventArgs e)
         {
-            // Get the selected time
             TimeSpan _selectedTime = e.NewTime;
+            int DaysInSeconds = int.Parse(_DaysSelected) * 86400;
 
-            Debug.WriteLine("Time changed: " + _selectedTime);
-            TimerText.Text = _selectedItemOutput + " will be performed in hour(s): " + _selectedTime;
-            _TimeinSeconds = (int)_selectedTime.TotalSeconds;
-            Debug.WriteLine("Time in seconds: " + _TimeinSeconds);
+            if (string.IsNullOrEmpty(_DaysSelected) || (_DaysSelected.Length > 6))
+            {
+                Debug.WriteLine("Invalid. Days selected: " + _DaysSelected + " & Days selected length: " + _DaysSelected.Length);
+            }
+            else
+            {
+                // Get the selected time
+                Debug.WriteLine("Time changed: " + _selectedTime);
+                if (_DaysSelected == "0")
+                {
+                    TimerText.Text = _selectedItemOutput + " will be performed in hour(s): " + _selectedTime;
+                }
+                else
+                {
+                    TimerText.Text = _selectedItemOutput + " will be performed in day(s): " + _DaysSelected + ":" + _selectedTime;
+                }
+                _TimeinSeconds = (int)_selectedTime.TotalSeconds + DaysInSeconds;
+                Debug.WriteLine("Time in seconds: " + _TimeinSeconds);
+            }
         }
 
         private async void BeginTimerButton_Click(object sender, RoutedEventArgs e)
@@ -104,7 +120,8 @@ namespace ShutdownTimerWinUI3
             CancellationToken token = _cancellationTokenSource.Token;
 
             _time = TimeSpan.FromSeconds(_TimeinSeconds); // Set the countdown time here
-            TimerText.Text = _time.ToString(@"hh\:mm\:ss");
+            TimerText.Text = _time.ToString(@"d\:hh\:mm\:ss");
+
             _timer.Start();
 
             BeginTimer.Content = "Timer Running...";
@@ -188,11 +205,33 @@ namespace ShutdownTimerWinUI3
         private void DayPicker_BeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
         {
             _DaysSelected = args.NewText;
-            int.Parse(_DaysSelected);
-            Debug.WriteLine("Value: " + args.NewText);
-            TimeSpan timeSpan = TimeSpan.FromDays(Convert.ToDouble(args.NewText));
-            Debug.WriteLine("TimeSpan: " + timeSpan);
 
+            if (!string.IsNullOrEmpty(_DaysSelected) && (_DaysSelected.Length < 6))
+            {
+                int days = int.Parse(_DaysSelected);
+                Debug.WriteLine("Value: " + args.NewText);
+                TimeSpan timeSpan = TimeSpan.FromDays(Convert.ToDouble(args.NewText));
+                Debug.WriteLine("TimeSpan: " + timeSpan);
+            }
+            else
+            {
+                Debug.WriteLine("Input is empty or null.: Days selected: " + _DaysSelected + " & Days selected length: " + _DaysSelected.Length);
+            }
         }
+        
+        private void SetTimerButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_selectedItemOutput == "null")
+            {
+                Debug.WriteLine("No action selected.");
+                TimerText.Text = "No action selected.";
+            }
+            else
+            {
+                Debug.WriteLine("Action selected: " + _selectedItemOutput);
+                TimerText.Text = "Action selected: " + _selectedItemOutput;
+            }
+        }
+
     }
 }
