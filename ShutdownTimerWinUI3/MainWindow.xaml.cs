@@ -19,6 +19,7 @@ using Windows.Management;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Net.NetworkInformation;
+using System.Reflection.Metadata.Ecma335;
 
 namespace ShutdownTimerWinUI3
 {
@@ -102,7 +103,11 @@ namespace ShutdownTimerWinUI3
                 Debug.WriteLine("No action selected.");
                 return;
             }
-            if (_TimeinSeconds == 0)
+            else if (TimerText.Text == _selectedItemOutput + " will be performed in hour(s): -00:00:00.0000001")
+            {
+                Debug.WriteLine("Test");
+            }   
+            else if (_TimeinSeconds == 0)
             {
                 Debug.WriteLine("No time selected.");
                 return;
@@ -233,6 +238,10 @@ namespace ShutdownTimerWinUI3
                     TimerText.Text = _selectedItemOutput + " will be performed in day(s): " + _DaysSelected + ":" + _selectedTime;
                 }
                 _TimeinSeconds = (int)_selectedTime.TotalSeconds + DaysInSeconds;
+                if (TimerText.Text == _selectedItemOutput + " will be performed in hour(s): -00:00:00.0000001")
+                {
+                    TimerText.Text = _selectedItemOutput + " will be performed instantly.";
+                }
                 Debug.WriteLine("Time in seconds: " + _TimeinSeconds);
             }
         }
